@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.BoyDao">
+	<resultMap id="boyMap" type="bbb">
+		<id property="bId" column="id" />
+		<result property="bHeight" column="height" />
+		<result property="bName" column="name" />
+	</resultMap>
+
+	<select id="userList" resultMap="boyMap">
+		select * from boy
+	</select>
+	<select id="selectOneById" resultMap="boyMap" parameterType="integer">
+		select * from boy where id = #{bId}
+	</select>
+	
+	<delete id="deleteOneById" parameterType="integer">
+		delete from boy where id = #{bId}
+	</delete>
+
+	<update id="updateUser1" parameterType="com.example.demo.pojo.Boy">
+		update boy set height = #{bHeight} , name = #{bName} where id = #{bId}
+	</update>
+
+	<!-- 动态sql -->
+	<select id="findBoy" resultMap="boyMap" parameterType="bbb">
+		select * from boy
+		<where>
+			<if test=" bName != null and bName != '' ">
+				and name like CONCAT('%',#{bName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="bHeight != null">
+				and height = #{bHeight}
+			</if>
+		</where>
+	</select>
+
+	<select id="findBoy2" resultMap="boyMap" parameterType="bbb">
+		select * from boy where 1=1
+		<choose>
+			<when test="bName != null and bName != ''">
+				and name = #{bName}
+			</when>
+			<when test="bHeight != null">
+				and height = #{bHeight}
+			</when>
+			<otherwise>
+				and id = 1
+			</otherwise>
+		</choose>
+		LIMIT 0,1
+	</select>
+
+	<select id="selectById" resultMap="boyMap">
+		select * from boy where id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+     <!-- 数据库自动生成主键 -->
+	<insert id="insertBoy" parameterType="bbb" useGeneratedKeys="true"
+		keyProperty="bId">
+		insert into boy(height,name) values(#{bHeight},#{bName})
+	</insert>
+	<insert id="insertBoy2" parameterType="com.example.demo.pojo.Boy">
+		<selectKey keyProperty="id" resultType="integer" order="AFTER">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+		insert into boy(height,name) values(#{bHeight},#{bName})
+	</insert>
+
+    
+	<!-- 多数据库支持 -->
+	<insert id="insert">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			<if test="_databaseId == 'oracle'">
+				select seq_users.nextval from dual
+			</if>
+			<if test="_databaseId == 'db2'">
+				select nextval for seq_users from sysibm.sysdummy1"
+			</if>
+		</selectKey>
+		insert into users values (#{id}, #{name})
+	</insert>
+
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.TclassMapper">
+	<resultMap type="cc" id="TclassMap">
+		<id column="c_id" property="id" />
+		<result column="c_name" property="name" jdbcType="VARCHAR" />
+		<association property="teacher" javaType="tt">
+			<id column="t_id" property="id" />
+			<result column="t_name" property="name" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+	<select id="getClass" parameterType="integer" resultMap="TclassMap">
+		select * from class c , teacher t where c.teacher_id = t.t_id and c.c_id =
+		#{id}
+	</select>
+
+	<resultMap type="cc" id="TclassMap2">
+		<id column="c_id" property="id" />
+		<result column="c_name" property="name" jdbcType="VARCHAR" />
+		<association property="teacher" select="gettt"
+			column="{tid=teacher_id,cid=c_id}" />
+	</resultMap>
+
+	<select id="gettt" resultType="tt">
+		select t_id id , t_name name from teacher
+		<where>
+			<choose>
+				<when test="tid != null">
+					t_id = #{cid}
+				</when>
+				<otherwise>
+					t_id = #{tid}
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getcc" parameterType="int" resultMap="TclassMap2">
+		select * from class where c_id = #{id}
+	</select>
+
+</mapper>
