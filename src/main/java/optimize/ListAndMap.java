@@ -1,5 +1,7 @@
 package optimize;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 public class ListAndMap {
@@ -9,7 +11,7 @@ public class ListAndMap {
 	 */
 	@Test
 	public void Test() {
-		
+		ArrayList<Object> arrayList = new ArrayList<>();
 	}
 
 }
