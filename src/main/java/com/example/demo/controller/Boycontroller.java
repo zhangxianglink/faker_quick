@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.websocket.server.PathParam;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +21,9 @@ import com.example.demo.dao.BoyDao;
 import com.example.demo.pojo.Boy;
 import com.example.demo.service.ReviewServiceFactory;
 import com.example.demo.utils.WatermarkPdfUtils;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RequestMapping("/boy")
 @RestController
@@ -32,7 +37,37 @@ public class Boycontroller {
 		return "xxxxxxxxxxxxxxxxxx";
 	}
 	
+	@PostMapping("/param")
+	public Boy param(Integer id, String name) {
+		Boy boy = new Boy();
+		boy.setbId(id);
+		boy.setbName(name);
+		return boy;
+	}
+	
+	@PostMapping("/boy")
+	public Boy param(@RequestBody Boy boy) {
+		return boy;
+	}
+	
+	@PostMapping("/map")
+	public String map(@RequestBody Map<String,Object> map) {
+		String uid = (String) map.get("uid");
+		return uid;
+	}
+	
+	@PostMapping("/string")
+	public Boy string(@RequestBody final String param) throws  IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Boy readValue = mapper.readValue(param, Boy.class);
+		return readValue;
+	}
 
+	@GetMapping("/arrs")
+	public Integer[] arrs(Integer[] ids) {
+		return ids;
+	}
+	
 	@RequestMapping("/test2")
 	@ResponseBody
 	public List<Boy> test(){
