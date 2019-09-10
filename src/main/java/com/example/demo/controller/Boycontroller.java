@@ -20,13 +20,20 @@ import com.example.demo.pojo.Boy;
 import com.example.demo.service.ReviewServiceFactory;
 import com.example.demo.utils.WatermarkPdfUtils;
 
+@RequestMapping("/boy")
 @RestController
 public class Boycontroller {
 	
 	@Autowired
 	private BoyDao boyDao;
+	
+	@RequestMapping("/test1")
+	public String test1() {
+		return "xxxxxxxxxxxxxxxxxx";
+	}
+	
 
-	@RequestMapping("/test")
+	@RequestMapping("/test2")
 	@ResponseBody
 	public List<Boy> test(){
 		List<Boy> userList = boyDao.userList();
