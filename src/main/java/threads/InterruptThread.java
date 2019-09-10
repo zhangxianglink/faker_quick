@@ -26,7 +26,7 @@ public class InterruptThread {
 	}
 	
 	/**
-	 * stop方法
+	 * sleep()遇到中断会抛出异常
 	 * @throws InterruptedException 
 	 */
 	@Test

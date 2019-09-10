@@ -81,7 +81,7 @@ public class DontStop {
 		while (true) {
 			createUser t = new createUser();
 			t.start();
-			Thread.sleep(150);
+			Thread.sleep(200);
 			//多个线程交替为user赋值, 一旦被打断id != name
 //			t.stop();
 			t.stopme();
