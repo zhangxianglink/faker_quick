@@ -1,4 +1,4 @@
-package threads;
+package threads.two;
 
 public class JoinA {
 	

@@ -1,4 +1,4 @@
-package threads;
+package threads.two;
 
 /**
  * stop方法简单粗暴,但是如果写入数据时强行停止就会导致数据异常.

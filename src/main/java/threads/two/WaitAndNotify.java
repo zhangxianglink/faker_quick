@@ -1,4 +1,4 @@
-package threads;
+package threads.two;
 
 public class WaitAndNotify {
 	final static Object ob = new Object();
