@@ -5,7 +5,7 @@ public class Sync implements Runnable {
 
 	public volatile static int i = 1;
 
-	public  synchronized void instance() {
+	public static synchronized void instance() {
 		i++;
 	}
 
